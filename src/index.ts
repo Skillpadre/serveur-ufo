@@ -1,7 +1,7 @@
 import cors from 'cors'
 import express from 'express'
 import { config } from '~/config'
-//import { TwitchController } from '~/resources/twitch/twitch.controller'
+import { UsersController } from '~/resources/users/users.controller'
 import { ExceptionsHandler } from '~/middlewares/exceptions.handler'
 import { UnknownRoutesHandler } from '~/middlewares/unknownRoutes.handler'
 
@@ -26,7 +26,7 @@ app.use(cors())
 /**
  * Toutes les routes CRUD pour les animaux seronts préfixées par `/pets`
  */
-//app.use('/twitch', TwitchController)
+app.use('/users', UsersController)
 
 /**
  * Homepage (uniquement necessaire pour cette demo)
