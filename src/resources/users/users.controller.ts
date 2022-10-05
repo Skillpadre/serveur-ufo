@@ -1,32 +1,41 @@
 import { Router } from 'express'
 import { pool } from '~/postgres/config'
 import { BadRequestException, NotFoundException } from '~/utils/exceptions'
+import { UsersService } from './users.service'
 
 /**
  * Nous créeons un `Router` Express, il nous permet de créer des routes en dehors du fichier `src/index.ts`
  */
- const UsersController = Router()
+const UsersController = Router()
 
- const getUsers = (request: any, response: any) => {
-    pool.query('SELECT * FROM users ORDER BY id ASC', (error: any, results: any) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
-  } 
+/**
+ * Instance de notre service
+ */
+const service = new UsersService()
 
- /**
-  * Instance de notre service
-  */
- //const service = new TwitchService()
- 
- /**
-  * Trouve tous les animaux
-  */
- UsersController.get('/',  getUsers)
-  
- /**
-  * On expose notre controller pour l'utiliser dans `src/index.ts`
-  */
- export { UsersController }
+/**
+ * Trouve tous les animaux
+ */
+//UsersController.get('/', getUsers)
+
+UsersController.get('/', async (req, res) => {
+  const result = await service.getUser();
+  console.log(result)
+  return res
+    .status(200)
+    .json(result.rows)
+})
+
+UsersController.get('/:id', async (req, res) => {
+  const result = await service.getUserById(req.params.id);
+  console.log(result)
+  return res
+    .status(200)
+    .json(result.rows)
+})
+
+
+/**
+ * On expose notre controller pour l'utiliser dans `src/index.ts`
+ */
+export { UsersController }
