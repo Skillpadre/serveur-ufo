@@ -6,26 +6,19 @@ import { BadRequestException, NotFoundException } from '~/utils/exceptions'
 /**
  * Nous créeons un `Router` Express, il nous permet de créer des routes en dehors du fichier `src/index.ts`
  */
- const EventsController = Router()
-
- const service = new EventsService()
-
+ const EventsRoutes = Router()
  /**
   * Instance de notre service
   */
- //const service = new TwitchService()
+ const service = new EventsService()
  
  /**
-  * Trouve tous les animaux
+  * Toutes les routes de notre `Router` seront préfixées par `/events`
   */
- EventsController.get('/',  service.getEvents)
-
- EventsController.get('/:id', service.getEventById)
-
- EventsController.post('/add', service.addEventTest)
-
+ EventsRoutes.route('/').get(service.getAllEvents).post(service.createEvent)
+ EventsRoutes.route('/:id').get(service.getEvent).post(service.updateEvent).delete(service.deleteEvent)
   
  /**
   * On expose notre controller pour l'utiliser dans `src/index.ts`
   */
- export { EventsController }
+ export { EventsRoutes }

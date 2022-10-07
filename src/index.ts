@@ -1,8 +1,9 @@
 import cors from 'cors'
 import express from 'express'
 import { config } from '~/config'
+import { TeamsRoutes } from '~/resources/teams/teams.routes'
+import { EventsRoutes } from '~/resources/events/events.routes'
 import { UsersController } from '~/resources/users/users.controller'
-import { EventsController } from '~/resources/events/events.controller'
 import { ExceptionsHandler } from '~/middlewares/exceptions.handler'
 import { UnknownRoutesHandler } from '~/middlewares/unknownRoutes.handler'
 
@@ -32,7 +33,9 @@ app.use('/users', UsersController)
 /**
  * Toutes les routes CRUD pour les events seronts préfixées par `/events`
  */
- app.use('/events', EventsController)
+ app.use('/events', EventsRoutes)
+
+ app.use('/teams', TeamsRoutes)
 
 /**
  * Homepage (uniquement necessaire pour cette demo)
