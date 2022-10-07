@@ -16,7 +16,7 @@ import { BadRequestException, NotFoundException } from '~/utils/exceptions'
   * Toutes les routes de notre `Router` seront préfixées par `/events`
   */
  EventsRoutes.route('/').get(service.getAllEvents).post(service.createEvent)
- EventsRoutes.route('/:id').get(service.getEvent).post(service.updateEvent).delete(service.deleteEvent)
+ EventsRoutes.route('/:id').get(service.getEvent).patch(service.updateEvent).delete(service.deleteEvent)
   
  /**
   * On expose notre controller pour l'utiliser dans `src/index.ts`

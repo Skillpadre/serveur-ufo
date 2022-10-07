@@ -35,7 +35,7 @@ getAllEvents = (req: any, res: any) => {
         throw error
       } else {
         console.log(`Added with id : ${results.rows[0]._id}`)
-        // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
+        
       }
       res.status(200).json(results.rows[0])
     })
@@ -55,12 +55,22 @@ getAllEvents = (req: any, res: any) => {
 
   // PUT Request to update an event
   updateEvent = (req: any, res: any) => {
+    const eventId = parseInt(req.params.id)
+    const title = req.query.name
+    console.log(eventId, title)
     res.send('updateEvent')
   }
 
   // DELETE Request to delete an event
   deleteEvent = (req: any, res: any) => {
-    res.send('deleteEvent')
+    const eventId = parseInt(req.params.id)
+    pool.query('DELETE FROM events WHERE _id =$1 RETURNING *', [eventId], (error: any, results: any) => {
+      if (error) {
+        throw error
+      }
+      res.status(200).json({deletedEvent : results.rows[0]}) 
+    })
+    // res.send('deleteEvent')
   }
 
 }

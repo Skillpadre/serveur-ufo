@@ -6,5 +6,5 @@ const { getAllTeams, createTeam, getTeam, updateTeam, deleteTeam } = require('./
 
 TeamsRoutes.route('/').get(getAllTeams).post(createTeam);
 TeamsRoutes.route('/:id').get(getTeam).put(updateTeam).delete(deleteTeam);
-
+ 
 export { TeamsRoutes };
