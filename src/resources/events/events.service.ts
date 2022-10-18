@@ -9,6 +9,7 @@ getAllEvents = (req: any, res: any) => {
       if (error) {
         throw error
       }
+      console.log('get all events')
       res.status(200).json(results.rows)
     })
   }
