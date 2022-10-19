@@ -7,10 +7,12 @@ import { UsersController } from '~/resources/users/users.controller'
 import { ExceptionsHandler } from '~/middlewares/exceptions.handler'
 import { UnknownRoutesHandler } from '~/middlewares/unknownRoutes.handler'
 
+
 /**
  * On créé une nouvelle "application" express
  */
 const app = express()
+
 
 /**
  * On dit à Express que l'on souhaite parser le body des requêtes en JSON
@@ -19,6 +21,10 @@ const app = express()
  */
 app.use(express.json())
 
+/** For URL encoded bodies (the kind produced by HTTP form POSTs) */
+app.use(express.urlencoded({
+    extended: true
+  }));
 /**
  * On dit à Express que l'on souhaite autoriser tous les noms de domaines
  * à faire des requêtes sur notre API.

@@ -27,10 +27,11 @@ getAllEvents = (req: any, res: any) => {
 
   //POST Request to add an event
   createEvent = (req: any, res: any) => {
-    console.log(req.query)
-    const { name, location, start_date, end_date } = req.query
+    console.log("query : ", req.query)
+    console.log("body : ", req.body)
+    const { name, location, start_date, end_date } = req.body
     const insert_date = new Date();
-    console.log(insert_date)
+    console.log("insert date : ", insert_date)
     pool.query('INSERT INTO events(name, location, date_start, date_end, _date_insert) VALUES($1, $2, $3, $4, $5) RETURNING *', [name, location, start_date, end_date, insert_date],  (error: any, results: any) => {
       if (error) { 
         throw error
