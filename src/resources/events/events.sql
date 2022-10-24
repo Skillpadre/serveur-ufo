@@ -1,0 +1,9 @@
+CREATE TABLE events (
+_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+name VARCHAR(25),
+location VARCHAR(25),
+date_start DATETIME NOT NULL,
+date_end DATETIME NOT NULL,
+_date_insert DATETIME NOT NULL,
+PRIMARY KEY(_id)
+);
