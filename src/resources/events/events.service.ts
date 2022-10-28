@@ -1,17 +1,25 @@
 import { pathToFileURL } from 'url'
 import { pool } from '~/postgres/config'
 
+import type { event } from '~~/types/event'
+
 export class EventsService {
 
   // GET /events - Récupérer tous les événements
-getAllEvents = (req: any, res: any) => {
-    pool.query('SELECT * FROM events ORDER BY _id DESC', (error: any, results: any) => {
-      if (error) {
-        throw error
-      }
-      console.log('get all events')
-      res.status(200).json(results.rows)
-    })
+  getAllEvents = (req: any, res: any) => {
+    try {
+
+      pool.query('SELECT * FROM event ORDER BY _id DESC', (error: any, results: any) => {
+        if (error) {
+          throw new Error("Erreur lors de la récupération des événements")
+        }
+        console.log('get all events')
+        res.status(200).json(results.rows)
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 
 
@@ -32,12 +40,12 @@ getAllEvents = (req: any, res: any) => {
     const { name, location, start_date, end_date } = req.body
     const insert_date = new Date();
     console.log("insert date : ", insert_date)
-    pool.query('INSERT INTO events(name, location, date_start, date_end, _date_insert) VALUES($1, $2, $3, $4, $5) RETURNING *', [name, location, start_date, end_date, insert_date],  (error: any, results: any) => {
-      if (error) { 
+    pool.query('INSERT INTO events(name, location, date_start, date_end, _date_insert) VALUES($1, $2, $3, $4, $5) RETURNING *', [name, location, start_date, end_date, insert_date], (error: any, results: any) => {
+      if (error) {
         throw error
       } else {
         console.log(`Added with id : ${results.rows[0]._id}`)
-        
+
       }
       res.status(200).json(results.rows[0])
     })
@@ -70,7 +78,7 @@ getAllEvents = (req: any, res: any) => {
       if (error) {
         throw error
       }
-      res.status(200).json({deletedEvent : results.rows[0]}) 
+      res.status(200).json({ deletedEvent: results.rows[0] })
     })
     // res.send('deleteEvent')
   }
