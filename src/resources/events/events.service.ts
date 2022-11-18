@@ -38,10 +38,10 @@ export class EventsService {
   createEvent = (req: any, res: any) => {
     console.log("query : ", req.query)
     console.log("body : ", req.body)
-    const { name, location, start_date, end_date } = req.body
+    const { name, location, start_date, end_date, state } = req.body
     const insert_date = new Date();
     console.log("insert date : ", insert_date)
-    pool.query('INSERT INTO events(name, location, date_start, date_end, _date_insert) VALUES($1, $2, $3, $4, $5) RETURNING *', [name, location, start_date, end_date, insert_date], (error: any, results: any) => {
+    pool.query('INSERT INTO events(name, location, date_start, date_end, _date_insert, state) VALUES($1, $2, $3, $4, $5, $6) RETURNING *', [name, location, start_date, end_date, insert_date, state], (error: any, results: any) => {
       if (error) {
         throw error
       } else {
