@@ -102,7 +102,7 @@ export class EventsService {
     // res.send('deleteEvent')
   }
 
-  setUnmodifiable = (req: any, res: any) => {
+  lockEvent = (req: any, res: any) => {
 
     const eventId = parseInt(req.params.id)
     const { id, date_end } = req.body
@@ -119,10 +119,10 @@ export class EventsService {
           if (error) {
             throw error
           } else {
-            console.log(`updated id : ${results.rows[0]._id}`)
+            console.log(`Event id : ${results.rows[0]._id} locked`)
 
           }
-          //res.status(200).json(results.rows[0])
+          res.status(200).json(results.rows[0])
       })
     }
 
