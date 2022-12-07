@@ -38,11 +38,11 @@ export class EventsService {
   createEvent = (req: any, res: any) => {
     console.log("query : ", req.query)
     console.log("body : ", req.body)
-    const { name, location, description, start_date, end_date, state } = req.body
+    const { name, location, description, start_date, end_date } = req.body
     const insert_date = new Date();
     console.log("insert date : ", insert_date)
-    pool.query('INSERT INTO events(name, location, description, date_start, date_end, _date_insert, state) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', 
-      [name, location, description, start_date, end_date, insert_date, state], 
+    pool.query('INSERT INTO events(name, location, description, date_start, date_end, _date_insert) VALUES($1, $2, $3, $4, $5, $6) RETURNING *', 
+      [name, location, description, start_date, end_date, insert_date], 
       (error: any, results: any) => {
         if (error) {
           throw error
@@ -71,12 +71,12 @@ export class EventsService {
     const eventId = parseInt(req.params.id)
     const title = req.query.name
     console.log(eventId, title)
-    const { name, location, description, start_date, end_date, state, id } = req.body
+    const { name, location, description, start_date, end_date, id } = req.body
     console.log(req.body)
 
     pool.query(
-      'UPDATE events SET name = $1, location = $2, description = $3, date_start = $4, date_end = $5, state = $6 WHERE _id = $7 RETURNING *',
-      [name, location, description, start_date, end_date, state, id],
+      'UPDATE events SET name = $1, location = $2, description = $3, date_start = $4, date_end = $5 WHERE _id = $6 RETURNING *',
+      [name, location, description, start_date, end_date, id],
       (error: any, results: any) => {
         if (error) {
           throw error
@@ -107,14 +107,12 @@ export class EventsService {
     const eventId = parseInt(req.params.id)
     const { id, date_end } = req.body
 
-    let state : string = "Terminé"
-
     // Condition to check if id in body and id in url are the same
     if(id != eventId) {
       res.status(400).send("Bad request : id in body and id in url are different")
     } else {
-      pool.query('UPDATE events SET state = $2 WHERE _id = $1 RETURNING *',
-        [id, state,],
+      pool.query('UPDATE events SET locked = $2 WHERE _id = $1 RETURNING *',
+        [id, true,],
         (error: any, results: any) => {
           if (error) {
             throw error
