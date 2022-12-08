@@ -9,7 +9,7 @@ export class EventsService {
   getAllEvents = (req: any, res: any) => {
     try {
 
-      pool.query('SELECT * FROM events ORDER BY _id DESC', (error: any, results: any) => {
+      pool.query('SELECT * FROM events ORDER BY date_end DESC', (error: any, results: any) => {
         if (error) {
           console.log(error)
           throw new Error("Erreur lors de la récupération des événements")

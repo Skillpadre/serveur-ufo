@@ -1,8 +1,9 @@
 import cors from 'cors'
 import express from 'express'
 import { config } from '~/config'
-import { TeamsRoutes } from '~/resources/teams/teams.routes'
+import { MigrateRoutes } from '~/postgres/migrate.routes'
 import { EventsRoutes } from '~/resources/events/events.routes'
+import { TeamsRoutes } from '~/resources/teams/teams.routes'
 import { UsersController } from '~/resources/users/users.controller'
 import { ExceptionsHandler } from '~/middlewares/exceptions.handler'
 import { UnknownRoutesHandler } from '~/middlewares/unknownRoutes.handler'
@@ -30,6 +31,8 @@ app.use(express.urlencoded({
  * à faire des requêtes sur notre API.
  */
 app.use(cors())
+
+app.use('/migrate', MigrateRoutes)
 
 /**
  * Toutes les routes CRUD pour les users seronts préfixées par `/users`

@@ -1,5 +1,5 @@
 CREATE TABLE events (
-_id SERIAL NOT NULL,
+_id SERIAL,
 name VARCHAR(25) NOT NULL,
 location VARCHAR(25) NOT NULL,
 description VARCHAR(255),
