@@ -1,9 +1,13 @@
 CREATE TABLE events (
-_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
-name VARCHAR(25),
-location VARCHAR(25),
-date_start DATETIME NOT NULL,
-date_end DATETIME NOT NULL,
-_date_insert DATETIME NOT NULL,
+_id SERIAL NOT NULL,
+name VARCHAR(25) NOT NULL,
+location VARCHAR(25) NOT NULL,
+description VARCHAR(255),
+date_start DATE NOT NULL,
+date_end DATE NOT NULL,
+_date_insert DATE NOT NULL,
+teams: integer[],
+activities: integer[],
+locked: boolean NOT NULL DEFAULT FALSE,
 PRIMARY KEY(_id)
 );

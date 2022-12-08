@@ -30,6 +30,7 @@ export class EventsService {
       if (error) {
         throw error
       }
+      console.log(results.rows)
       res.status(200).json(results.rows)
     })
   }
@@ -48,7 +49,6 @@ export class EventsService {
           throw error
         } else {
           console.log(`Added with id : ${results.rows[0]._id}`)
-
         }
         res.status(200).json(results.rows[0])
     })
@@ -71,12 +71,12 @@ export class EventsService {
     const eventId = parseInt(req.params.id)
     const title = req.query.name
     console.log(eventId, title)
-    const { name, location, description, start_date, end_date, id } = req.body
+    const { name, location, description, date_start, date_end, id } = req.body
     console.log(req.body)
 
     pool.query(
       'UPDATE events SET name = $1, location = $2, description = $3, date_start = $4, date_end = $5 WHERE _id = $6 RETURNING *',
-      [name, location, description, start_date, end_date, id],
+      [name, location, description, date_start, date_end, id],
       (error: any, results: any) => {
         if (error) {
           throw error
@@ -84,10 +84,10 @@ export class EventsService {
           console.log(`updated id : ${results.rows[0]._id}`)
 
         }
-        //res.status(200).json(results.rows[0])
+        res.status(200).json(results.rows[0])
     })
 
-    res.send('updateEvent')
+    //res.send('updateEvent')
   }
 
   // DELETE Request to delete an event
