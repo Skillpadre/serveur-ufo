@@ -1,30 +1,22 @@
-import { pool, client } from './config'
+import { pool } from './config'
 
+const text = "CREATE TABLE events (_id SERIAL, name VARCHAR(25) NOT NULL, PRIMARY KEY(_id))"
 export class MigrateService {
 
     createTableEvents = async (req: any, res: any) => {
         try {
-            client
-                .connect()
-                .then(() => console.log('connected'))
-                .catch((err: any) => console.error('connection error', err.stack))
-            
-            client.end()
+            pool.query(text)
+                .then((results: any) => (res.status(200).json(results.rows)))
+                .catch((e: any) => console.error(e.stack))
 
+       
         } catch (error) {
             console.log(error)
         } finally {
-            client.end()
         }
 
-        res.send('createTableEvents')
+        //res.send('createTableEvents')
 
-        // pool.query('CREATE TABLE events', (error: any, results: any) =>
-        // {
-        //     if (error) {
-        //         throw error
-        //     }
-        //     res.status(200).json(results.rows)
-        // })
+        
     }
 }

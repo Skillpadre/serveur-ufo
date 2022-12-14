@@ -1,16 +1,16 @@
 const Pool = require('pg').Pool
 const Client = require('pg').Client
 // DEV Localhost connection
-const pool = new Pool({
-  user: 'kinay',
-  host: 'localhost',
-  database: 'ufo_db',
-  password: 'pass',
-  port: 5432,
-})
+// const pool = new Pool({
+//   user: 'kinay',
+//   host: 'localhost',
+//   database: 'ufo_db',
+//   password: 'pass',
+//   port: 5432,
+// })
 
 // TEST
-const client = new Client({
+const pool = new Pool({
   user: 'kinay',
   host: 'ac489625-001.eu.clouddb.ovh.net',
   database: 'ufo_db',
@@ -18,6 +18,6 @@ const client = new Client({
   port: 35722,
 })
 
-export { pool, client }
+export { pool }
 // kinay
 // TbpoPSQLDBi13
