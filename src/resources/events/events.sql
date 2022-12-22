@@ -6,8 +6,8 @@ description VARCHAR(255),
 date_start DATE NOT NULL,
 date_end DATE NOT NULL,
 _date_insert DATE NOT NULL,
-teams: integer[],
-activities: integer[],
-locked: boolean NOT NULL DEFAULT FALSE,
+teams integer[],
+activities integer[],
+locked boolean NOT NULL DEFAULT FALSE,
 PRIMARY KEY(_id)
 );

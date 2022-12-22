@@ -1,3 +1,5 @@
+require('dotenv').config({path: './.env'});
+
 const Pool = require('pg').Pool
 const Client = require('pg').Client
 // DEV Localhost connection
@@ -11,11 +13,11 @@ const Client = require('pg').Client
 
 // TEST
 const pool = new Pool({
-  user: 'kinay',
-  host: 'ac489625-001.eu.clouddb.ovh.net',
-  database: 'ufo_db',
-  password: 'TbpoPSQLDBi13',
-  port: 35722,
+  user: process.env.PGSQL_USER,
+  host: process.env.PGSQL_HOST,
+  database: process.env.PGSQL_DB,
+  password: process.env.PGSQL_PASSWORD,
+  port: process.env.PGSQL_PORT,
 })
 
 export { pool }

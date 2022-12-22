@@ -7,6 +7,6 @@ const MigrateRoutes = Router()
 
 const service = new MigrateService()
 
-MigrateRoutes.route('/events').get(service.createTableEvents)
+MigrateRoutes.route('/').get(service.createTableEvents)
 
 export { MigrateRoutes }
