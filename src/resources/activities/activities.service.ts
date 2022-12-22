@@ -4,7 +4,9 @@ export class ActivitiesService {
 
     getAllActivities = async (req: any, res: any) => {
         try {
-            
+            pool.query("SELECT * FROM activities")
+                .then((results: any) => (res.status(200).json(results.rows)))
+                .catch((e: any) => console.error(e.stack))
         }
         catch (error) {
             console.log(error)
@@ -13,6 +15,9 @@ export class ActivitiesService {
 
     createActivity = async (req: any, res: any) => {
         try {
+            pool.query("INSERT INTO activities (name) VALUES ('Deuxième event') RETURNING *")
+                .then((results: any) => (res.status(200).json(results.rows)))
+                .catch((e: any) => console.error(e.stack))
             
         }
         catch (error) {

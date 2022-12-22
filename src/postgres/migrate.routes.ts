@@ -7,6 +7,8 @@ const MigrateRoutes = Router()
 
 const service = new MigrateService()
 
-MigrateRoutes.route('/').get(service.createTableEvents)
+MigrateRoutes.route('/events').get(service.createTableEvents)
+MigrateRoutes.route('/activities').get(service.createTableActivities).delete(service.dropTableActivities)
+
 
 export { MigrateRoutes }
