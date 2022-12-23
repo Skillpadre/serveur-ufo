@@ -46,9 +46,11 @@ export class ActivitiesService {
         const { name, nb_fields, nb_teams, points, planning, id_event } = req.body
 
         pool.query(
-            "UPDATE activities set name = $1, nb_fields = $2, nb_teams = $3, points = $4, planning = $5, id_event = $6 WHERE _id = $7",
+            "UPDATE activities set name = $1, nb_fields = $2, nb_teams = $3, points = $4, planning = $5, id_event = $6 WHERE _id = $7 RETURNING *",
             [name, nb_fields, nb_teams, points, planning, id_event, req.params.id]
         )
+        .then((results: any) => (res.status(200).json(results.rows)))
+        .catch((e: any) => console.error(e.stack))
     }
 
     getActivityById = async (req: any, res: any) => {
@@ -88,12 +90,12 @@ export class ActivitiesService {
 
 
     deleteActivity = async (req: any, res: any) => {
-        try {
-            
-        }
-        catch (error) {
-            console.log(error)
-        }
+        pool.query(
+            "DELETE FROM activities WHERE _id = $1 RETURNING *",
+            [req.params.id]
+        )
+        .then((results: any) => (res.status(200).json(results.rows)))
+        .catch((e: any) => console.error(e.stack))
     }
 
 }

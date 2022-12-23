@@ -9,7 +9,6 @@ const service = new ActivitiesService()
 
 ActivitiesRoutes.route('/').get(service.getActivities).post(service.createActivity)
 ActivitiesRoutes.route('/:id').get(service.getActivityById).patch(service.updateActivity).delete(service.deleteActivity)
-ActivitiesRoutes.route('/:eventid').get(service.getActivitiesByEventId)
-ActivitiesRoutes.route('/:name').get(service.getActivitiesByName)
+
 
 export {ActivitiesRoutes}
