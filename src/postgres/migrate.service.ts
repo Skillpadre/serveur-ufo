@@ -22,7 +22,7 @@ const textCreateTableEvents = `CREATE TABLE events (
         points INT,
         planning VARCHAR(255),
         id_event INT REFERENCES events (_id),
-        PRIMARY KEY(_id)
+        PRIMARY KEY(_id))
         `
 
 const text2 = "CREATE SCHEMA public"
@@ -47,7 +47,7 @@ export class MigrateService {
     createTableActivities = async (req: any, res: any) => {
         try {
             pool.query(textCreateTableActivities)
-                .then((results: any) => (res.status(200).json(results.rows)))
+                .then((results: any) => (res.status(200).json(results)))
                 .catch((e: any) => console.error(e.stack))
         } catch (error) {
             console.log(error)
