@@ -1,27 +1,24 @@
-const getAllTeams = async (req: any, res: any) => {
-    res.send('Get all teams');
-}
+import { pool } from '~/postgres/config'
 
-const createTeam = async (req: any, res: any) => {
-    res.send('Create team');
-}
+export class TeamsService {
 
-const getTeam = async (req: any, res: any) => {
-    res.send('Get team');
-}
+    getAllTeams = async (req: any, res: any) => {
+        res.send('Get all teams');
+    }
 
-const updateTeam = async (req: any, res: any) => {
-    res.send('Update team');
-}
+    createTeam = async (req: any, res: any) => {
+        res.send('Create team');
+    }
 
-const deleteTeam = async (req: any, res: any) => {
-    res.send('Delete team');
-}
+    getTeam = async (req: any, res: any) => {
+        res.send('Get team');
+    }
 
-export {
-    getAllTeams,
-    createTeam,
-    getTeam,
-    updateTeam,
-    deleteTeam
+    updateTeam = async (req: any, res: any) => {
+        res.send('Update team');
+    }
+
+    deleteTeam = async (req: any, res: any) => {
+        res.send('Delete team');
+    }
 }

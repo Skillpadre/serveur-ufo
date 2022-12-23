@@ -1,10 +1,11 @@
 import { Router } from 'express'
+import { TeamsService } from './teams.controller';
 
 const TeamsRoutes = Router()
+const service = new TeamsService()
 
-const { getAllTeams, createTeam, getTeam, updateTeam, deleteTeam } = require('./teams.controller');
 
-TeamsRoutes.route('/').get(getAllTeams).post(createTeam);
-TeamsRoutes.route('/:id').get(getTeam).put(updateTeam).delete(deleteTeam);
+TeamsRoutes.route('/').get(service.getAllTeams).post(service.createTeam);
+TeamsRoutes.route('/:id').get(service.getTeam).put(service.updateTeam).delete(service.deleteTeam);
  
 export { TeamsRoutes };
