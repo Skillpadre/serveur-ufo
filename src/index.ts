@@ -1,8 +1,10 @@
 import cors from 'cors'
 import express from 'express'
 import { config } from '~/config'
-import { TeamsRoutes } from '~/resources/teams/teams.routes'
+import { MigrateRoutes } from '~/postgres/migrate.routes'
 import { EventsRoutes } from '~/resources/events/events.routes'
+import { ActivitiesRoutes } from '~/resources/activities/activities.routes'
+import { TeamsRoutes } from '~/resources/teams/teams.routes'
 import { UsersController } from '~/resources/users/users.controller'
 import { ExceptionsHandler } from '~/middlewares/exceptions.handler'
 import { UnknownRoutesHandler } from '~/middlewares/unknownRoutes.handler'
@@ -31,6 +33,8 @@ app.use(express.urlencoded({
  */
 app.use(cors())
 
+app.use('/migrate', MigrateRoutes)
+
 /**
  * Toutes les routes CRUD pour les users seronts préfixées par `/users`
  */
@@ -40,7 +44,7 @@ app.use('/users', UsersController)
  * Toutes les routes CRUD pour les events seronts préfixées par `/events`
  */
  app.use('/events', EventsRoutes)
-
+ app.use('/activities', ActivitiesRoutes)
  app.use('/teams', TeamsRoutes)
 
 /**
@@ -62,4 +66,4 @@ app.use(ExceptionsHandler)
 /**
  * On demande à Express d'ecouter les requêtes sur le port défini dans la config
  */
-app.listen(config.API_PORT, () => console.log('Server started !'))
+app.listen(config.API_PORT, () =>  console.log('Server started !'))
