@@ -1,8 +1,6 @@
 import { pathToFileURL } from 'url'
 import { pool } from '~/postgres/config'
 
-import type { event } from '~~/types/event'
-
 export class EventsService {
 
   // GET /events - Récupérer tous les événements

@@ -1,4 +1,4 @@
-export type event = {
+type event = {
     _id?: number
     name: string
     location: string
