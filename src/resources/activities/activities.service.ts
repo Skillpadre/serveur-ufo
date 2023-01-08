@@ -33,7 +33,7 @@ export class ActivitiesService {
                 "INSERT INTO activities (name, nb_fields, nb_teams, points, planning, id_event) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
                 [name, nb_fields, nb_teams, points, planning, id_event]
                 )
-                .then((results: any) => (res.status(200).json(results.rows)))
+                .then((results: any) => (res.status(200).json(results.rows[0])))
                 .catch((e: any) => console.error(e.stack))
             
         }

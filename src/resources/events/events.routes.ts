@@ -19,6 +19,7 @@ import { BadRequestException, NotFoundException } from '~/utils/exceptions'
  EventsRoutes.route('/:id').get(service.getEvent).patch(service.updateEvent).delete(service.deleteEvent)
  EventsRoutes.route('/lock/:id').patch(service.lockEvent)
  EventsRoutes.route('/addactivity/:id').patch(service.addActivity)
+ EventsRoutes.route('/removeactivity/:id').patch(service.removeActivity)
  /**
   * On expose notre controller pour l'utiliser dans `src/index.ts`
   */

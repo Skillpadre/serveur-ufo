@@ -133,4 +133,13 @@ export class EventsService {
     .catch((error: any) => console.error(error.stack))
   }
 
+  removeActivity = (req: any, res: any) => {
+    pool.query (
+      "UPDATE events set activities = array_remove(activities, $1) WHERE _id = $2 RETURNING *",
+      [req.body.activityId, req.params.id],
+    )
+    .then((result: any) => res.status(200).json(result.rows[0]))
+    .catch((error: any) => console.error(error.stack))
+  }
+
 }
