@@ -70,8 +70,9 @@ export class ActivitiesService {
     }
 
     getActivitiesByEventId = async (req: any, res: any) => {
+        console.log("activity by event id")
         pool.query(
-            "SELECT * FROM activities WHERE id_event = $1",
+            "SELECT * FROM activities WHERE _id IN (SELECT unnest(activities) FROM events WHERE _id = $1)",
             [req.query.eventid]
         )
         .then((results: any) => (res.status(200).json(results.rows)))

@@ -142,4 +142,13 @@ export class EventsService {
     .catch((error: any) => console.error(error.stack))
   }
 
+  deleteNullValue = (req: any, res: any) => {
+    pool.query(
+      "UPDATE events set activities = array_replace(activities, null,0) WHERE _id = $1 RETURNING *",
+      [req.params.id],
+    )
+    .then((result: any) => res.status(200).json(result.rows[0]))
+    .catch((error: any) => console.error(error.stack))
+  }
+
 }
