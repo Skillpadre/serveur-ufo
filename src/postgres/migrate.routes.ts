@@ -9,6 +9,8 @@ const service = new MigrateService()
 
 MigrateRoutes.route('/events').get(service.createTableEvents)
 MigrateRoutes.route('/activities').get(service.createTableActivities).delete(service.dropTableActivities)
+MigrateRoutes.route('/delcol').patch(service.deleteColumnFromTable)
+MigrateRoutes.route('/addcol').patch(service.addColumnToTable)
 
 
 export { MigrateRoutes }

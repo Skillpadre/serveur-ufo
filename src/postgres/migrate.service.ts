@@ -32,6 +32,22 @@ const text5 = "INSERT INTO events (name) VALUES ('Deuxième event') RETURNING *"
 
 export class MigrateService {
 
+    deleteColumnFromTable = async (req: any, res: any) => {
+        pool.query(
+            `ALTER TABLE ${req.query.table} DROP COLUMN ${req.query.column}`,
+        )
+        .then((result: any) => res.status(200).send(`Column ${req.query.column} deleted from table ${req.query.table} `))
+        .catch((error: any) => console.error(error.stack))
+    }
+
+    addColumnToTable = async (req: any, res: any) => {
+        pool.query(
+            `ALTER TABLE ${req.query.table} ADD ${req.query.column} ${req.query.type}`,
+        )
+        .then((result: any) => res.status(200).send(`Column ${req.query.column}: ${req.query.type} added to table ${req.query.table} `))
+        .catch((error: any) => console.error(error.stack))
+    }
+
     createTableEvents = async (req: any, res: any) => {
         try {
             pool.query(textCreateTableEvents)
