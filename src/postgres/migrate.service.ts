@@ -48,6 +48,14 @@ export class MigrateService {
         .catch((error: any) => console.error(error.stack))
     }
 
+    clearTable = (req: any, res: any) => {
+        pool.query(
+            `TRUNCATE TABLE ${req.query.table}`
+        )
+        .then((result: any) => res.status(200).send(`Table ${req.query.table} clear`))
+        .catch((error: any) => console.error(error.stack))
+    }
+
     createTableEvents = async (req: any, res: any) => {
         try {
             pool.query(textCreateTableEvents)

@@ -16,11 +16,14 @@ import { BadRequestException, NotFoundException } from '~/utils/exceptions'
   * Toutes les routes de notre `Router` seront préfixées par `/events`
   */
  EventsRoutes.route('/').get(service.getAllEvents).post(service.createEvent)
+ EventsRoutes.route('/cleanacts').patch(service.cleanActivitiesInAllEvents)
+ EventsRoutes.route('/cleanteams').patch(service.cleanTeamsInAllEvents)
  EventsRoutes.route('/:id').get(service.getEvent).patch(service.updateEvent).delete(service.deleteEvent)
  EventsRoutes.route('/lock/:id').patch(service.lockEvent)
  EventsRoutes.route('/addactivity/:id').patch(service.addActivity)
  EventsRoutes.route('/removeactivity/:id').patch(service.removeActivity)
  EventsRoutes.route('/deletenull/:id').patch(service.deleteNullValue)
+ 
 
 
  /**

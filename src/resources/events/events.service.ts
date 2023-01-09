@@ -28,8 +28,7 @@ export class EventsService {
       if (error) {
         throw error
       }
-      console.log(results.rows)
-      res.status(200).json(results.rows)
+      res.status(200).json(results.rows[0])
     })
   }
 
@@ -139,6 +138,22 @@ export class EventsService {
       [req.body.activityId, req.params.id],
     )
     .then((result: any) => res.status(200).json(result.rows[0]))
+    .catch((error: any) => console.error(error.stack))
+  }
+
+  cleanActivitiesInAllEvents = (req: any, res: any) => {
+    pool.query (
+      "UPDATE events SET activities = NULL RETURNING *",
+    )
+    .then((result: any) => res.status(200).json(result.rows))
+    .catch((error: any) => console.error(error.stack))
+  }
+
+  cleanTeamsInAllEvents = (req: any, res: any) => {
+    pool.query (
+      "UPDATE events SET teams = NULL RETURNING *",
+    )
+    .then((result: any) => res.status(200).json(result.rows))
     .catch((error: any) => console.error(error.stack))
   }
 
