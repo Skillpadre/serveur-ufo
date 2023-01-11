@@ -1,10 +1,10 @@
-import { pathToFileURL } from 'url'
+import {Request, Response} from 'express'
 import { pool } from '~/postgres/config'
 
 export class EventsService {
 
   // GET /events - Récupérer tous les événements
-  getAllEvents = (req: any, res: any) => {
+  getAllEvents = (req: Request, res: Response) => {
     try {
 
       pool.query('SELECT * FROM events ORDER BY date_end DESC', (error: any, results: any) => {
@@ -12,7 +12,6 @@ export class EventsService {
           console.log(error)
           throw new Error("Erreur lors de la récupération des événements")
         }
-        console.log('get all events')
         res.status(200).json(results.rows)
       })
     }
@@ -23,7 +22,7 @@ export class EventsService {
 
 
   // GET /events/:id - Récupérer un événement par son id
-  getEvent = (req: any, res: any) => {
+  getEvent = (req: Request, res: Response) => {
     pool.query('SELECT * FROM events WHERE _id = $1', [req.params.id], (error: any, results: any) => {
       if (error) {
         throw error
@@ -51,20 +50,9 @@ export class EventsService {
     })
   }
 
-  // POST Request to add an event
-  // addEvent = (req: any, res: any) => {
-  //   const { title, description, date, time, location, image } = req.body
-
-  //   pool.query('INSERT INTO events (title, description, date, time, location, image) VALUES ($1, $2, $3, $4, $5, $6)', [title, description, date, time, location, image], (error: any, results: any) => {
-  //     if (error) {
-  //       throw error
-  //     }
-  //     res.status(201).send(`Event added with ID: ${results.insertId}`)
-  //   })
-  // }
 
   // PUT Request to update an event
-  updateEvent = (req: any, res: any) => {
+  updateEvent = (req: Request, res: Response) => {
     const eventId = parseInt(req.params.id)
     const title = req.query.name
     console.log(eventId, title)
@@ -88,7 +76,7 @@ export class EventsService {
   }
 
   // DELETE Request to delete an event
-  deleteEvent = (req: any, res: any) => {
+  deleteEvent = (req: Request, res: Response) => {
     const eventId = parseInt(req.params.id)
     pool.query('DELETE FROM events WHERE _id =$1 RETURNING *', [eventId], (error: any, results: any) => {
       if (error) {
@@ -99,7 +87,7 @@ export class EventsService {
     // res.send('deleteEvent')
   }
 
-  lockEvent = (req: any, res: any) => {
+  lockEvent = (req: Request, res: Response) => {
 
     const eventId = parseInt(req.params.id)
     const { id, date_end } = req.body
@@ -123,6 +111,7 @@ export class EventsService {
 
   }
 
+  // activities in events had to deleted 
   addActivity = (req: any, res: any) => {
     pool.query(
       "UPDATE events set activities = array_append(activities, $1) WHERE _id = $2 RETURNING *",
@@ -132,6 +121,7 @@ export class EventsService {
     .catch((error: any) => console.error(error.stack))
   }
 
+  // activities in events had to deleted 
   removeActivity = (req: any, res: any) => {
     pool.query (
       "UPDATE events set activities = array_remove(activities, $1) WHERE _id = $2 RETURNING *",
@@ -141,6 +131,7 @@ export class EventsService {
     .catch((error: any) => console.error(error.stack))
   }
 
+    // activities in events had to deleted 
   cleanActivitiesInAllEvents = (req: any, res: any) => {
     pool.query (
       "UPDATE events SET activities = NULL RETURNING *",
@@ -149,21 +140,21 @@ export class EventsService {
     .catch((error: any) => console.error(error.stack))
   }
 
-  cleanTeamsInAllEvents = (req: any, res: any) => {
-    pool.query (
-      "UPDATE events SET teams = NULL RETURNING *",
-    )
-    .then((result: any) => res.status(200).json(result.rows))
-    .catch((error: any) => console.error(error.stack))
-  }
-
+    // activities in events had to deleted 
   deleteNullValue = (req: any, res: any) => {
     pool.query(
       "UPDATE events set activities = array_replace(activities, null,0) WHERE _id = $1 RETURNING *",
       [req.params.id],
-    )
-    .then((result: any) => res.status(200).json(result.rows[0]))
-    .catch((error: any) => console.error(error.stack))
-  }
-
+      )
+      .then((result: any) => res.status(200).json(result.rows[0]))
+      .catch((error: any) => console.error(error.stack))
+    }
+    
+    cleanTeamsInAllEvents = (req: any, res: any) => {
+      pool.query (
+        "UPDATE events SET teams = NULL RETURNING *",
+      )
+      .then((result: any) => res.status(200).json(result.rows))
+      .catch((error: any) => console.error(error.stack))
+    }
 }

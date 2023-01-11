@@ -1,3 +1,4 @@
+import { Request, Response } from 'express'
 import { pool } from './config'
 
 const textCreateTableEvents = `CREATE TABLE events (
@@ -53,6 +54,30 @@ export class MigrateService {
             `TRUNCATE TABLE ${req.query.table}`
         )
         .then((result: any) => res.status(200).send(`Table ${req.query.table} clear`))
+        .catch((error: any) => console.error(error.stack))
+    }
+
+
+    createTableEvent_Activity = (req: Request, res: Response) => {
+        pool.query(
+            `CREATE TABLE event_activity (
+                _id SERIAL,
+                event_id integer NOT NULL,
+                activity_id integer NOT NULL,
+                FOREIGN KEY (event_id) REFERENCES events (_id),
+                FOREIGN KEY (activity_id) REFERENCES activities (_id),
+                PRIMARY KEY(_id))
+                `
+        )
+        .then((result: any) => res.status(200).send(`Table event_activity created`))
+        .catch((error: any) => console.error(error.stack))
+    }
+
+    dropTableEvent_Activity = (req: Request, res: Response) => {
+        pool.query(
+            `DROP TABLE event_activity`
+        )
+        .then((result: any) => res.status(200).send(`Table event_activity dropped`))
         .catch((error: any) => console.error(error.stack))
     }
 
