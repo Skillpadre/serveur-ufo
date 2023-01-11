@@ -1,3 +1,4 @@
+import { Request, Response } from 'express'
 import { pool } from '~/postgres/config'
 
 // sekect all activities from event table
@@ -6,10 +7,8 @@ import { pool } from '~/postgres/config'
 export class ActivitiesService {
 
     // Dispatch according to the query
-    getActivities = async (req: any, res: any) => {
-        if(req.query.eventid)
-            this.getActivitiesByEventId(req, res)
-        else if(req.query.name)
+    getActivities = (req: Request, res: Response) => {
+        if(req.query.name)
             this.getActivitiesByName(req, res)
         else if(req.query.id)
             this.getActivityById(req, res)
@@ -17,7 +16,7 @@ export class ActivitiesService {
             this.getAllActivities(req, res)
     }
 
-    getAllActivities = async (req: any, res: any) => {
+    getAllActivities = (req: Request, res: Response) => {
         try {
             pool.query("SELECT * FROM activities")
                 .then((results: any) => (res.status(200).json(results.rows)))
@@ -28,41 +27,39 @@ export class ActivitiesService {
         }
     }
 
-    createActivity = async (req: any, res: any) => {
-        const { name, nb_fields, nb_teams, points, planning, id_event } = req.body
+    createActivity = (req: Request, res: Response) => {
+        const { name, nb_fields, nb_teams, category } = req.body
 
         try {
             pool.query(
-                "INSERT INTO activities (name, nb_fields, nb_teams, points, planning, id_event) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-                [name, nb_fields, nb_teams, points, planning, id_event]
+                "INSERT INTO activities (name, nb_fields, nb_teams, category) VALUES ($1, $2, $3, $4) RETURNING *",
+                [name, nb_fields, nb_teams, category]
                 )
                 .then((results: any) => (res.status(200).json(results.rows[0])))
                 .catch((e: any) => console.error(e.stack))
-            
         }
         catch (error) {
             console.log(error)
         }
     }
 
-    updateActivity = async (req: any, res: any) => {
-        const { name, nb_fields, nb_teams, points, planning, id_event } = req.body
+    updateActivity = (req: Request, res: Response) => {
+        const { name, nb_fields, nb_teams, category } = req.body
 
         pool.query(
-            "UPDATE activities set name = $1, nb_fields = $2, nb_teams = $3, points = $4, planning = $5, id_event = $6 WHERE _id = $7 RETURNING *",
-            [name, nb_fields, nb_teams, points, planning, id_event, req.params.id]
+            "UPDATE activities set name = $1, nb_fields = $2, nb_teams = $3, category = $4 WHERE _id = $5 RETURNING *",
+            [name, nb_fields, nb_teams, category, req.params.id]
         )
         .then((results: any) => (res.status(200).json(results.rows)))
         .catch((e: any) => console.error(e.stack))
     }
 
-    getActivityById = async (req: any, res: any) => {
+    getActivityById = (req: Request, res: Response) => {
         let id;
         if(req.params.id)
             id = req.params.id
         else
             id = req.query.id
-
 
         pool.query(
             "SELECT * FROM activities WHERE _id = $1",
@@ -72,16 +69,8 @@ export class ActivitiesService {
         .catch((e: any) => console.error(e.stack))
     }
 
-    getActivitiesByEventId = async (req: any, res: any) => {
-        pool.query(
-            "SELECT * FROM activities WHERE id_event = $1",
-            [req.query.eventid]
-        )
-        .then((results: any) => (res.status(200).json(results.rows)))
-        .catch((e: any) => console.error(e.stack))
-    }
 
-    getActivitiesByName = async (req: any, res: any) => {
+    getActivitiesByName = (req: Request, res: Response) => {
         pool.query(
             "SELECT * FROM activities WHERE name = $1",
             [req.query.name]
@@ -92,7 +81,7 @@ export class ActivitiesService {
 
 
 
-    deleteActivity = async (req: any, res: any) => {
+    deleteActivity = (req: Request, res: Response) => {
         pool.query(
             "DELETE FROM activities WHERE _id = $1 RETURNING *",
             [req.params.id]
