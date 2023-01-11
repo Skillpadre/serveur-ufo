@@ -4,6 +4,7 @@ import { config } from '~/config'
 import { MigrateRoutes } from '~/postgres/migrate.routes'
 import { EventsRoutes } from '~/resources/events/events.routes'
 import { ActivitiesRoutes } from '~/resources/activities/activities.routes'
+import { Event_ActivityRoutes } from '~/resources/event_activity/event_activity.routes'
 import { TeamsRoutes } from '~/resources/teams/teams.routes'
 import { UsersController } from '~/resources/users/users.controller'
 import { ExceptionsHandler } from '~/middlewares/exceptions.handler'
@@ -41,10 +42,11 @@ app.use('/migrate', MigrateRoutes)
 app.use('/users', UsersController)
 
 /**
- * Toutes les routes CRUD pour les events seronts préfixées par `/events`
+ * Toutes les routes CRUD pour les events seronts préfixées par `/events` ou `/activities` ou `/event_activity` ou `/teams` ...
  */
  app.use('/events', EventsRoutes)
  app.use('/activities', ActivitiesRoutes)
+ app.use('/event_activity', Event_ActivityRoutes)
  app.use('/teams', TeamsRoutes)
 
 /**
